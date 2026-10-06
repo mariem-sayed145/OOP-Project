@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace OOP_Project
 {
-    public class Answer
+    public class Answer : ICloneable
     {
         public int AnswerId { get; set; }
         public string AnswerText { get; set; }
 
-        public Answer()
+        public Answer() : this(0, string.Empty)
         {
         }
 
@@ -19,6 +19,11 @@ namespace OOP_Project
         {
             AnswerId = answerId;
             AnswerText = answerText;
+        }
+
+        public object Clone()
+        {
+            return new Answer(AnswerId, AnswerText);
         }
 
         public override string ToString()

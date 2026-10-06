@@ -8,34 +8,27 @@ namespace OOP_Project
 {
     public class PracticalExam : Exam
     {
-        public PracticalExam()
+        public PracticalExam(int time, Question[] questions) : base(time, questions)
         {
         }
 
-        public PracticalExam(
-            int time,
-            int numberOfQuestions,
-            Question[] questions)
-            : base(time, numberOfQuestions, questions)
+        // Practical exam: MCQ only
+        protected override bool IsQuestionAllowed(Question q)
         {
+            return q is MCQQuestion;
         }
 
+        // Shows the right answers after finishing the exam
         public override void ShowExam()
         {
-            Console.WriteLine("===== Practical Exam =====");
+            if (!EnsureFinished()) return;
 
-            foreach (Question question in Questions)
+            Console.WriteLine("\n===== Practical Exam - Right Answers =====");
+            for (int i = 0; i < Questions.Length; i++)
             {
-                Console.WriteLine(question);
-
-                Console.WriteLine("Answers:");
-
-                foreach (Answer answer in question.Answers)
-                {
-                    Console.WriteLine(answer);
-                }
-
-                Console.WriteLine($"Right Answer: {question.RightAnswer}");
+                Console.WriteLine(Questions[i]);
+                Console.WriteLine($"   Your answer : {StudentAnswers[i]}");
+                Console.WriteLine($"   Right answer: {Questions[i].RightAnswer}");
                 Console.WriteLine();
             }
         }

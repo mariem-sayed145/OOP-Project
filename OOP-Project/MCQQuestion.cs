@@ -8,18 +8,14 @@ namespace OOP_Project
 {
     public class MCQQuestion : Question
     {
-        public MCQQuestion()
+        public MCQQuestion(string header, string body, int mark, Answer[] answerList, int rightAnswerId)
+            : base(header, body, mark, answerList,
+                   answerList == null ? null : answerList.FirstOrDefault(a => a.AnswerId == rightAnswerId))
         {
-        }
-
-        public MCQQuestion(
-            string header,
-            string body,
-            int mark,
-            Answer[] answers,
-            Answer rightAnswer)
-            : base(header, body, mark, answers, rightAnswer)
-        {
+            if (answerList == null || answerList.Length < 2)
+                throw new ArgumentException("MCQ needs at least 2 answers.");
+            if (RightAnswer == null)
+                throw new ArgumentException("Right answer id must match one of the answers.");
         }
     }
 }

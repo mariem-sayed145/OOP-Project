@@ -8,36 +8,29 @@ namespace OOP_Project
 {
     public class FinalExam : Exam
     {
-        public FinalExam()
+        public FinalExam(int time, Question[] questions) : base(time, questions)
         {
         }
 
-        public FinalExam(
-            int time,
-            int numberOfQuestions,
-            Question[] questions)
-            : base(time, numberOfQuestions, questions)
+        // Final exam: True/False and MCQ
+        protected override bool IsQuestionAllowed(Question q)
         {
+            return q is TrueFalseQuestion || q is MCQQuestion;
         }
 
+        // Shows the questions, the answers and the grade
         public override void ShowExam()
         {
-            Console.WriteLine("===== Final Exam =====");
+            if (!EnsureFinished()) return;
 
-            foreach (Question question in Questions)
+            Console.WriteLine("\n===== Final Exam Result =====");
+            for (int i = 0; i < Questions.Length; i++)
             {
-                Console.WriteLine(question);
-
-                Console.WriteLine("Answers:");
-
-                foreach (Answer answer in question.Answers)
-                {
-                    Console.WriteLine(answer);
-                }
-
-                Console.WriteLine($"Grade: {question.Mark}");
+                Questions[i].Display();
+                Console.WriteLine($"   Your answer: {StudentAnswers[i]}");
                 Console.WriteLine();
             }
+            Console.WriteLine($"Grade: {CalculateGrade()} / {TotalMarks}");
         }
     }
 }

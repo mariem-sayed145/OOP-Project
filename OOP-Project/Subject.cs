@@ -10,10 +10,9 @@ namespace OOP_Project
     {
         public int SubjectId { get; set; }
         public string SubjectName { get; set; }
+        public Exam Exam { get; private set; }
 
-        public Exam Exam { get; set; }
-
-        public Subject()
+        public Subject() : this(0, string.Empty)
         {
         }
 
@@ -23,9 +22,22 @@ namespace OOP_Project
             SubjectName = subjectName;
         }
 
-        public void CreateExam(Exam exam)
+        // Creates the exam of the right type and links it to this subject
+        public Exam CreateExam(ExamType type, int time, Question[] questions)
         {
-            Exam = exam;
+            switch (type)
+            {
+                case ExamType.Final: Exam = new FinalExam(time, questions); break;
+                case ExamType.Practical: Exam = new PracticalExam(time, questions); break;
+                default: throw new ArgumentException("Unknown exam type.");
+            }
+            Exam.Subject = this;
+            return Exam;
+        }
+
+        public override string ToString()
+        {
+            return $"Subject {SubjectId}: {SubjectName}";
         }
     }
 }

@@ -8,18 +8,13 @@ namespace OOP_Project
 {
     public class TrueFalseQuestion : Question
     {
-        public TrueFalseQuestion()
+        
+        public TrueFalseQuestion(string header, string body, int mark, bool correctAnswerIsTrue)
+            : base(header, body, mark,
+                   new Answer[] { new Answer(1, "True"), new Answer(2, "False") },
+                   null)
         {
+            RightAnswer = AnswerList[correctAnswerIsTrue ? 0 : 1];
         }
-
-        public TrueFalseQuestion(
-            string header,
-            string body,
-            int mark,
-            Answer[] answers,
-            Answer rightAnswer)
-            : base(header, body, mark, answers, rightAnswer)
-        {
-        }
-    }
+    } 
 }
